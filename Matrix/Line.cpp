@@ -1,10 +1,10 @@
-#include "Line.h"  // Подключаем заголовочный файл с описанием класса Line и других зависимостей
+#include "Line.h"  
 
 using namespace std;
 
 // Устанавливаем курсор в заданную позицию в консоли
 void setCursorPosition(int x, int y) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // Получаем дескриптор консоли
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
     COORD position; // Координаты курсора
     position.X = x;
     position.Y = y;
@@ -16,60 +16,58 @@ void setCursorPosition(int x, int y) {
     SetConsoleCursorInfo(hConsole, &cursor); // Применяем изменения
 }
 
-// Конструктор класса Line, который инициализирует длину линии, скорость и режим эпилепсии
+
 Line::Line(int len, int spd, bool epi) : length(len), speed(spd), epilepsy(epi) {}
 
-// Метод для отрисовки ромба в заданной позиции консоли (startX, startY)
+// Метод для отрисовки ромба
 void Line::printRomb(int startX, int startY) {
-    setCursorPosition(startX, startY); // Устанавливаем курсор в начальную позицию
-    Symbol sym1{ epilepsy }; // Создаем символ, учитывая режим эпилепсии
-    sym1.display(); // Отображаем символ
-    this_thread::sleep_for(chrono::milliseconds(1000 / speed)); // Ждем, чтобы соблюсти скорость линии
+    setCursorPosition(startX, startY); 
+    Symbol sym1{ epilepsy }; 
+    sym1.display(); 
+    this_thread::sleep_for(chrono::milliseconds(1000 / speed)); 
 
-    // Отрисовка двух символов выше и ниже исходного
     setCursorPosition(startX + 2, startY + 1);
     Symbol sym2{ epilepsy };
-    sym2.display(); // Отображаем символ ниже
+    sym2.display(); 
 
     setCursorPosition(startX + 2, startY - 1);
     sym2.display(); // Отображаем символ выше
-    this_thread::sleep_for(chrono::milliseconds(1000 / speed)); // Опять пауза для контроля скорости
+    this_thread::sleep_for(chrono::milliseconds(1000 / speed)); 
 }
 
-// Метод для очистки символов ромба в консоли (удаление следов линии)
+// Метод для очистки
 void Line::clearRomb(int startX, int startY) {
     // Определяем четность длины линии для правильного отображения
     int ood = length % 2 == 0 ? 2 : 0;
     setCursorPosition(startX - (length * 2) - ood - 2, startY);
-    cout << " "; // Очищаем символ в начальной позиции
+    cout << " "; 
     setCursorPosition(startX - length * 2 - ood, startY + 1);
-    cout << " "; // Очищаем символ ниже
+    cout << " "; 
     setCursorPosition(startX - length * 2 - ood, startY - 1);
-    cout << " "; // Очищаем символ выше
-    this_thread::sleep_for(chrono::milliseconds(1000 / speed)); // Пауза для соблюдения скорости
+    cout << " "; 
+    this_thread::sleep_for(chrono::milliseconds(1000 / speed)); 
 }
 
 // Метод для отрисовки линии в виде последовательности ромбов
 void Line::printLine(int startY, int width) {
-    int startX = 0; // Начальная позиция линии
-    setCursorPosition(startX, startY); // Устанавливаем курсор
+    int startX = 0; 
+    setCursorPosition(startX, startY); 
 
-    // Цикл для отрисовки линии половинной длины
+    
     for (int i = 0; i < length / 2; i++) {
-        printRomb(startX, startY); // Рисуем ромб
-        startX += 4; // Смещаемся вправо для следующего ромба
+        printRomb(startX, startY); 
+        startX += 4; 
     }
 
-    // Основной цикл отрисовки линии до конца консоли
     while (startX < width) {
-        printRomb(startX, startY); // Рисуем ромб
-        startX += 4; // Смещаемся вправо
-        clearRomb(startX, startY); // Очищаем предыдущий ромб
+        printRomb(startX, startY); 
+        startX += 4; 
+        clearRomb(startX, startY); 
     }
 
     // Очистка ромбов в конце линии, чтобы удалить следы при выходе за границы
     for (int i = width - length - 2; i < width; i++) {
-        clearRomb(startX, startY); // Очищаем оставшиеся символы
-        startX += 2; // Сдвигаем курсор вправо
+        clearRomb(startX, startY); 
+        startX += 2;
     }
 }

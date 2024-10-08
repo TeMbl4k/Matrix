@@ -1,5 +1,5 @@
-#include "AppManager.h" // Подключаем заголовочный файл с описанием класса AppManager
-#include <string> // Подключаем библиотеку для работы со строками
+#include "AppManager.h" 
+#include <string> 
 
 using namespace std;
 
@@ -7,37 +7,36 @@ using namespace std;
 #undef max
 #endif
 
-// Конструктор класса AppManager, который получает размеры консоли
+//Получает размеры консоли
 AppManager::AppManager() {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // Получаем дескриптор консоли
-    CONSOLE_SCREEN_BUFFER_INFO csbi; // Структура для хранения информации о консоли
-    GetConsoleScreenBufferInfo(hConsole, &csbi); // Получаем информацию о текущем размере окна консоли
-    width = csbi.srWindow.Right - csbi.srWindow.Left + 1; // Ширина консоли
-    height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1; // Высота консоли
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
+    CONSOLE_SCREEN_BUFFER_INFO csbi; 
+    GetConsoleScreenBufferInfo(hConsole, &csbi); 
+    width = csbi.srWindow.Right - csbi.srWindow.Left + 1; 
+    height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
 // Функция для очистки консоли
 void clearConsole() {
-    system("cls"); // Очищаем консольную строку
+    system("cls"); 
 }
 
-// Метод приветствия и запроса параметров для работы программы
 void AppManager::welcome() {
-    // Вывод приветственного сообщения
+
     cout << "          Welcome to Matrix -_-\n============================================" << endl;
 
     // Запрашиваем у пользователя скорость линии (1-30) с проверкой на корректность
     cout << "Print line speed (1 - 30): ";
     while (true) {
-        cin >> line_speed; // Читаем скорость
+        cin >> line_speed;
         // Если ввод некорректный или число не в диапазоне, повторяем запрос
         if (cin.fail() || line_speed < 1 || line_speed > 30) {
             cin.clear(); // Очищаем флаг ошибки
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Игнорируем некорректный ввод
-            cout << "Invalid input. Please enter a valid number: "; // Просим повторить ввод
+            cout << "Invalid input. Please enter a valid number: "; 
         }
         else {
-            break; // Если всё правильно, выходим из цикла
+            break; 
         }
     }
 
@@ -67,7 +66,7 @@ void AppManager::welcome() {
             break;
         }
         else {
-            cout << "Print correct flag (Y/N): "; // Просим ввести корректное значение
+            cout << "Print correct flag (Y/N): "; 
         }
     }
 }
@@ -90,7 +89,7 @@ void AppManager::startApp(int argc, char* argv[]) {
                     cout << "Invalid speed. Print correct speed (1 - 30)." << endl;
                     return;
                 }
-                line_speed = speed; // Сохраняем скорость
+                line_speed = speed; 
 
                 // Преобразуем второй аргумент (длина линии) в число и проверяем его диапазон
                 int length = stoi(argv[2]);
@@ -98,7 +97,7 @@ void AppManager::startApp(int argc, char* argv[]) {
                     cout << "Invalid length. Print correct length (1 - 30)." << endl;
                     return;
                 }
-                line_length = length; // Сохраняем длину
+                line_length = length;
             }
             catch (invalid_argument& e) {
                 cout << "Invalid input. Print correct length and speed (1 - 30)." << endl;
@@ -130,7 +129,6 @@ void AppManager::startApp(int argc, char* argv[]) {
         welcome();
     }
 
-    // Запускаем основную работу программы
     run();
 }
 
