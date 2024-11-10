@@ -1,5 +1,5 @@
 #include "AppManager.h" 
-#include <string> 
+#include <string>
 
 using namespace std;
 
@@ -14,11 +14,6 @@ AppManager::AppManager() {
     GetConsoleScreenBufferInfo(hConsole, &csbi); 
     width = csbi.srWindow.Right - csbi.srWindow.Left + 1; 
     height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-}
-
-// Функция для очистки консоли
-void clearConsole() {
-    system("cls"); 
 }
 
 void AppManager::welcome() {
@@ -72,7 +67,8 @@ void AppManager::welcome() {
 }
 
 void AppManager::startApp(int argc, char* argv[]) {
-    // Проверяем, были ли переданы аргументы через командную строку
+    bool validArgs = true;  // Флаг для проверки аргументов
+
     if (argc > 1) {
         // Если передан флаг --help или /?, выводим инструкцию по использованию программы
         if (string(argv[1]) == "--help" || string(argv[1]) == "/?") {
@@ -86,59 +82,69 @@ void AppManager::startApp(int argc, char* argv[]) {
                 // Преобразуем первый аргумент (скорость линии) в число и проверяем его диапазон
                 int speed = stoi(argv[1]);
                 if (speed < 1 || speed > 30) {
-                    cout << "Invalid speed. Print correct speed (1 - 30)." << endl;
-                    return;
+                    cout << "Invalid speed. Speed must be between 1 and 30." << endl;
+                    validArgs = false;
                 }
-                line_speed = speed; 
+                else {
+                    line_speed = speed;
+                }
 
                 // Преобразуем второй аргумент (длина линии) в число и проверяем его диапазон
                 int length = stoi(argv[2]);
                 if (length < 1 || length > 30) {
-                    cout << "Invalid length. Print correct length (1 - 30)." << endl;
-                    return;
+                    cout << "Invalid length. Length must be between 1 and 30." << endl;
+                    validArgs = false;
                 }
-                line_length = length;
+                else {
+                    line_length = length;
+                }
+
+                // Проверяем третий аргумент (режим эпилепсии)
+                string input = argv[3];
+                if (input.length() == 1 && (input[0] == 'Y' || input[0] == 'y' || input[0] == 'N' || input[0] == 'n')) {
+                    epilepsy_flag = input[0];
+                    epilepsy = (epilepsy_flag == 'Y' || epilepsy_flag == 'y');
+                }
+                else {
+                    cout << "Invalid epilepsy flag. Use Y/N." << endl;
+                    validArgs = false;
+                }
+
             }
             catch (invalid_argument& e) {
-                cout << "Invalid input. Print correct length and speed (1 - 30)." << endl;
-                return;
+                cout << "Invalid input. Arguments must be numbers for speed and length." << endl;
+                validArgs = false;
             }
             catch (out_of_range& e) {
-                cout << "Number out of range. Please enter numbers." << endl;
-                return;
-            }
-
-            // Проверяем третий аргумент (режим эпилепсии)
-            string input = argv[3];
-            if (input.length() == 1 && (input[0] == 'Y' || input[0] == 'y' || input[0] == 'N' || input[0] == 'n')) {
-                epilepsy_flag = input[0];
-                epilepsy = (epilepsy_flag == 'Y' || epilepsy_flag == 'y');
-            }
-            else {
-                cout << "Epilepsy flag incorrect (Y/N). Please enter correct flag." << endl;
-                return;
+                cout << "Number out of range. Please enter valid numbers." << endl;
+                validArgs = false;
             }
         }
         else {
-            cout << "Invalid arguments. Use --help for usage." << endl;
-            return;
+            cout << "Invalid number of arguments. Use --help for usage instructions." << endl;
+            validArgs = false;
         }
     }
     else {
-        // Если аргументы командной строки не переданы, вызываем диалоговый режим
+        validArgs = false; // Если аргументов нет, устанавливаем флаг в false для вызова диалогового режима
+    }
+
+    // Если аргументы некорректны или отсутствуют, вызываем диалоговый режим
+    if (!validArgs) {
         welcome();
     }
 
+    // Запускаем приложение
     run();
 }
 
+
 // Основной цикл программы
 void AppManager::run() {
-    clearConsole(); // Очищаем консоль перед началом отрисовки
+    system("cls");
     while (true) {
-        int randomRow = rand() % height; // Выбираем случайную строку для начала отрисовки линии
         Line line(line_length, line_speed, epilepsy); // Создаем объект класса Line с параметрами
-        line.printLine(randomRow, width); // Отрисовываем линию в выбранной строке
+        line.Start(line_length, line_speed,  epilepsy, height, width);
     }
 }
 

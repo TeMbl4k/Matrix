@@ -5,10 +5,11 @@
 #include <cstdlib>
 
 class Symbol {
-public:
+private:
     char symbol;
     bool epilepsy;
 
+public:
     Symbol(bool epilepsyMode);
     char getRandomSymbol();
     void display();

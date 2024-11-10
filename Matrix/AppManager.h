@@ -5,14 +5,15 @@
 #include <iostream>
 #include <limits>
 #include <windows.h>
+#include "Windows.h"
 
 class AppManager {
-public:
+private:
     int line_speed, line_length;
     bool epilepsy;
     char epilepsy_flag;
     int width, height;
-
+public:
     AppManager();
     void welcome();
     void run();
