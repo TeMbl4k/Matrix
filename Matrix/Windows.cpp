@@ -32,12 +32,12 @@ void Windows::SetPos(int x, int y) {
 }
 
 
-int Windows::GetHeight()
+int Windows::GetHeight() const
 {
 	return height;
 }
 
-int Windows::GetWidth()
+int Windows::GetWidth() const
 {
 	return width;
 }

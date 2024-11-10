@@ -1,5 +1,6 @@
 #include "AppManager.h" 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -7,12 +8,11 @@ using namespace std;
 #undef max
 #endif
 
-//Получает размеры консоли
 AppManager::AppManager() {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
-    CONSOLE_SCREEN_BUFFER_INFO csbi; 
-    GetConsoleScreenBufferInfo(hConsole, &csbi); 
-    width = csbi.srWindow.Right - csbi.srWindow.Left + 1; 
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+    width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
     height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
@@ -49,6 +49,19 @@ void AppManager::welcome() {
         }
     }
 
+    cout << "Print line frequency (1 - 30): ";
+    while (true) {
+        cin >> line_frequency;
+        if (cin.fail() || line_frequency < 1 || line_frequency > 30) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number between 1 and 30: ";
+        }
+        else {
+            break;
+        }
+    }
+
     // Запрашиваем включение режима эпилепсии (Y/N) с проверкой на корректность
     string epilepsy_input;
     cout << "Epilepsy mode (Y/N): ";
@@ -77,7 +90,7 @@ void AppManager::startApp(int argc, char* argv[]) {
         }
 
         // Если передано ровно 3 аргумента, выполняем их обработку
-        if (argc == 4) {
+        if (argc == 5) {
             try {
                 // Преобразуем первый аргумент (скорость линии) в число и проверяем его диапазон
                 int speed = stoi(argv[1]);
@@ -99,8 +112,18 @@ void AppManager::startApp(int argc, char* argv[]) {
                     line_length = length;
                 }
 
+                int frequency = stoi(argv[3]);
+                if (frequency < 1 || frequency > 30) {
+                    cout << "Invalid frequency. Length must be between 1 and 30." << endl;
+                    validArgs = false;
+                }
+                else {
+                    line_frequency = frequency;
+                }
+
+
                 // Проверяем третий аргумент (режим эпилепсии)
-                string input = argv[3];
+                string input = argv[4];
                 if (input.length() == 1 && (input[0] == 'Y' || input[0] == 'y' || input[0] == 'N' || input[0] == 'n')) {
                     epilepsy_flag = input[0];
                     epilepsy = (epilepsy_flag == 'Y' || epilepsy_flag == 'y');
@@ -111,11 +134,11 @@ void AppManager::startApp(int argc, char* argv[]) {
                 }
 
             }
-            catch (invalid_argument& e) {
+            catch (invalid_argument&) {
                 cout << "Invalid input. Arguments must be numbers for speed and length." << endl;
                 validArgs = false;
             }
-            catch (out_of_range& e) {
+            catch (out_of_range&) {
                 cout << "Number out of range. Please enter valid numbers." << endl;
                 validArgs = false;
             }
@@ -142,9 +165,31 @@ void AppManager::startApp(int argc, char* argv[]) {
 // Основной цикл программы
 void AppManager::run() {
     system("cls");
+
+    vector<Line> Lines;  // Вектор для хранения линий
+
+    auto start_time = chrono::high_resolution_clock::now();  // Таймер для управления временем
+
     while (true) {
-        Line line(line_length, line_speed, epilepsy); // Создаем объект класса Line с параметрами
-        line.Start(line_length, line_speed,  epilepsy, height, width);
+        auto current_time = chrono::high_resolution_clock::now();
+        auto elapsed_time = chrono::duration_cast<chrono::milliseconds>(current_time - start_time);
+
+        // Добавляем новые линии с частотой, указанной пользователем
+        for (int i = 0; i < line_frequency; i++) {
+            Lines.push_back(Line(line_length, line_speed, epilepsy, line_frequency));  // Создаем и добавляем новые линии
+        }
+
+        start_time = current_time;  // Сброс таймера
+
+        // Обновляем каждую линию
+        for (int i = 0; i < Lines.size(); i++) {
+            Lines[i].Start(line_length, line_speed, epilepsy);  // Каждая линия обновляется по своему пути
+
+            // Здесь можно добавить условие для удаления линии, если она уже вышла за пределы экрана
+        }
+
+        // Рисуем экран снова (если нужно, это можно добавить в конце каждого цикла)
     }
 }
+
 

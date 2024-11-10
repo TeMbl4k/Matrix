@@ -9,7 +9,7 @@
 
 class AppManager {
 private:
-    int line_speed, line_length;
+    int line_speed, line_length, line_frequency;
     bool epilepsy;
     char epilepsy_flag;
     int width, height;

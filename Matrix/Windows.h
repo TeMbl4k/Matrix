@@ -15,8 +15,8 @@ private:
 public:
 	Windows();
 	void SetPos(int x, int y);
-	int GetHeight();
-	int GetWidth();
+	int GetHeight() const;
+	int GetWidth() const;
 };
 
 #endif

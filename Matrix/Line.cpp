@@ -1,20 +1,21 @@
-#include "Line.h"  
+#include "Line.h"
 
 using namespace std;
 
 // Устанавливаем курсор в заданную позицию в консоли
 
-Line::Line(int len, int spd, bool epi) : length(len), speed(spd), epilepsy(epi) {}
+Line::Line(int len, int spd, bool epi, int freq) : length(len), speed(spd), epilepsy(epi), frequency(freq){
+    int random_width = rand() % (Win.GetWidth() - 1) + 1;
+}
 
-void Line::Start(int line_length, int speed, bool ep, int height, int width)
+void Line::Start(int line_length, int speed, bool ep)
 {
     while (true)
     {
         int len = 0;
-        int random_width = rand() % (width - 1) + 1;
 
         bool r = rand() % 2;
-        for (int i = 0; i <+ height; i++)
+        for (int i = 0; i <+ Win.GetHeight(); i++)
         {
             if ((i + r) % 2 == 0)
             {
@@ -47,7 +48,7 @@ void Line::Start(int line_length, int speed, bool ep, int height, int width)
             }
             Sleep(1000 / speed);
         }
-        for (int i = height - line_length - 1; i <= height; i++)
+        for (int i = Win.GetHeight() - line_length - 1; i <= Win.GetHeight(); i++)
         {
             Win.SetPos(random_width + 1, i);
             cout << ' ';

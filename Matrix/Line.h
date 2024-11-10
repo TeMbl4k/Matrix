@@ -13,12 +13,14 @@ private:
     int length;
     int speed;
     bool epilepsy;
+    int frequency;
+    int random_width;
 
     Windows Win;
 
 public:
-    Line(int len, int spd, bool epi);
-    void Start(int line_length, int speed, bool ep, int height, int width);
+    Line(int len, int spd, bool epi, int freq);
+    void Start(int line_length, int speed, bool ep);
 };
 
 #endif
