@@ -1,9 +1,8 @@
 #include "AppManager.h" 
-
-using namespace std;
+#include <iostream>
 
 int main(int argc, char* argv[]) {
-    AppManager app;  
+    AppManager app;
     app.startApp(argc, argv);
 }
 

@@ -1,6 +1,7 @@
-#include "AppManager.h" 
+#include <iostream>
+#include "AppManager.h"
+#include "Run.h"
 #include <string>
-#include <vector>
 
 using namespace std;
 
@@ -8,30 +9,22 @@ using namespace std;
 #undef max
 #endif
 
-AppManager::AppManager() {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(hConsole, &csbi);
-    width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-    height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-}
-
 void AppManager::welcome() {
 
     cout << "          Welcome to Matrix -_-\n============================================" << endl;
 
     // Запрашиваем у пользователя скорость линии (1-30) с проверкой на корректность
-    cout << "Print line speed (1 - 30): ";
+    std::cout << "Print line speed (1 - 30): ";
     while (true) {
         cin >> line_speed;
         // Если ввод некорректный или число не в диапазоне, повторяем запрос
         if (cin.fail() || line_speed < 1 || line_speed > 30) {
             cin.clear(); // Очищаем флаг ошибки
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Игнорируем некорректный ввод
-            cout << "Invalid input. Please enter a valid number: "; 
+            cout << "Invalid input. Please enter a valid number: ";
         }
         else {
-            break; 
+            break;
         }
     }
 
@@ -74,7 +67,7 @@ void AppManager::welcome() {
             break;
         }
         else {
-            cout << "Print correct flag (Y/N): "; 
+            cout << "Print correct flag (Y/N): ";
         }
     }
 }
@@ -157,39 +150,13 @@ void AppManager::startApp(int argc, char* argv[]) {
         welcome();
     }
 
-    // Запускаем приложение
-    run();
-}
+    srand(time(nullptr));
+    Windows win; //
+    win.clean();
+    win.hidecursor();
 
 
-// Основной цикл программы
-void AppManager::run() {
-    system("cls");
-
-    vector<Line> Lines;  // Вектор для хранения линий
-
-    auto start_time = chrono::high_resolution_clock::now();  // Таймер для управления временем
-
-    while (true) {
-        auto current_time = chrono::high_resolution_clock::now();
-        auto elapsed_time = chrono::duration_cast<chrono::milliseconds>(current_time - start_time);
-
-        // Добавляем новые линии с частотой, указанной пользователем
-        for (int i = 0; i < line_frequency; i++) {
-            Lines.push_back(Line(line_length, line_speed, epilepsy, line_frequency));  // Создаем и добавляем новые линии
-        }
-
-        start_time = current_time;  // Сброс таймера
-
-        // Обновляем каждую линию
-        for (int i = 0; i < Lines.size(); i++) {
-            Lines[i].Start(line_length, line_speed, epilepsy);  // Каждая линия обновляется по своему пути
-
-            // Здесь можно добавить условие для удаления линии, если она уже вышла за пределы экрана
-        }
-
-        // Рисуем экран снова (если нужно, это можно добавить в конце каждого цикла)
-    }
+    Run run(line_length, line_speed, line_frequency, epilepsy);
 }
 
 

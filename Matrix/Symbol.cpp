@@ -1,6 +1,10 @@
-#include "Symbol.h" 
-
+#include "Symbol.h"
+#include <windows.h>
+#include <cstdlib>
+#include <random>
+#include <string>
 using namespace std;
+
 
 Symbol::Symbol(bool epilepsyMode) : epilepsy(epilepsyMode) {
     symbol = getRandomSymbol(); // Генерация случайного символа
@@ -23,3 +27,7 @@ void Symbol::display() {
         cout << "\033[1;32m" << symbol << "\033[0m";
     }
 }
+
+Symbol::~Symbol() = default;
+
+
