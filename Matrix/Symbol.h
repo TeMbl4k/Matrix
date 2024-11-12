@@ -1,5 +1,5 @@
-#ifndef SYMBOL_H
-#define SYMBOL_H
+#ifndef SyMBOL_H
+#define SyMBOL_H
 
 #include <iostream>
 #include <cstdlib>
@@ -16,4 +16,4 @@ public:
     ~Symbol();
 };
 
-#endif // SYMBOL_H
+#endif // SyMBOL_H

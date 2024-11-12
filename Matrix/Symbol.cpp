@@ -12,7 +12,7 @@ Symbol::Symbol(bool epilepsyMode) : epilepsy(epilepsyMode) {
 
 // Метод для генерации случайного символа
 char Symbol::getRandomSymbol() {
-    const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+    const string characters = "ABCDEFGHIJKLMNOPQRSTUVWxyZabcdefghijklmnopqrstuvwxyz !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
     int index = rand() % characters.size();
     return characters[index]; 
 }

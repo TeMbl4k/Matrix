@@ -4,16 +4,15 @@
 
 #include "cs.h"
 #include <windows.h>
+#include <utility>
 
 class Windows {
 
 public:
-    class cs getConsoleSize();
+    void cls(void* hConsole);
+    std::pair<int, int> get_console_size();
     void SetPos(int x, int y);
     void clean();
-
-    void cls(void* hConsole);
-
     void hidecursor();
 };
 

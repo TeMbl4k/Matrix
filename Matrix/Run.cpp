@@ -27,11 +27,11 @@ void Run::Start() {
         }
         if (!lines.empty()) {
             for (auto iter = lines.begin(); iter != lines.end();) {
-                if (iter->EOL) {
+                if (iter->end_of_line) {
                     iter = lines.erase(iter);
                 }
                 else {
-                    iter->tryMove();
+                    iter->tryPrint();
                     ++iter;
                 }
             }
@@ -53,19 +53,9 @@ void Run::set_time_points() {
 }
 
 double Run::rand_double(double a, double b) {
-
-    namespace sc = std::chrono;
-    auto time = sc::system_clock::now(); 
-    auto curr_cicle = time.time_since_epoch(); 
-    auto millis = sc::duration_cast<sc::nanoseconds>(curr_cicle);
-
-    std::random_device rd;
-    std::mt19937 gen(millis.count());
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
     std::uniform_real_distribution<double> dis(a, b);
-
-    double c = dis(gen);
-
-    return c;
+    return dis(gen);
 }
-
 

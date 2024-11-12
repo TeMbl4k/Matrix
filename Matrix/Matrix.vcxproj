@@ -136,7 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppManager.h" />
-    <ClInclude Include="cs.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Run.h" />
     <ClInclude Include="Symbol.h" />

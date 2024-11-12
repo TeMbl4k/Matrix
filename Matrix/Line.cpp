@@ -3,57 +3,58 @@
 #include "Line.h"
 
 Line::Line(int line_length, int line_speed, bool epilepsy) : line_length(line_length), line_speed((double)1.0 / line_speed), epilepsy(epilepsy) {
-    conSize = win.getConsoleSize();
-    X = 1 + rand() % (conSize.width - 2);
-    Y = conSize.height - 1;
+    std::tie(width, height) = win.get_console_size();
+
+    x = 1 + rand() % (width - 2);
+    y = 0;
 }
 
-void Line::tryMove() {
+void Line::tryPrint() {
     end_time = std::chrono::steady_clock::now();
-    if (std::chrono::duration<double>(end_time - start_time).count() >= line_speed && !EOL) {
-        Move();
+    if (!end_of_line && std::chrono::duration<double>(end_time - start_time).count() >= line_speed) {
+        PrintLine();
         start_time = std::chrono::steady_clock::now();
     }
 }
-void Line::Move() {
-    if (Y == 0) {
-        sc_end = true;
+
+void Line::PrintLine() {
+    if (y == height) {
+        end = true;
     }
-    if (Y > 0) {
-        Draw();
-        Y--;
+    if (y < height) {
+        PrintSym();
+        y++;
     }
-    if (Y + line_length == 1) {
-        EOL = true;
-        this->~Line();
+    if (y - line_length == height) {
+        end_of_line = true;
     }
     else {
-        if (Y <= conSize.height - line_length) {
-            if (sc_end) {
-                Y--;
+        if (y >= line_length) {
+            if (end) {
+                y++;
             }
-            Erase();
+            Clean();
         }
 
     }
 }
 
-void Line::Draw() {
-    win.SetPos(X - (Y % 2), Y);
-    Symbol sym{ epilepsy };
-    sym.display();
-    if (Y % 2 == 1) {
-        win.SetPos(X + (Y % 2), Y);
-        Symbol sym{ epilepsy };
-        sym.display();
+void Line::PrintSym() {
+    win.SetPos(x - (y % 2), y);
+    Symbol sym1{ epilepsy };
+    sym1.display();
+    if (y % 2 == 1) {
+        win.SetPos(x + (y % 2), y);
+        Symbol sym2{ epilepsy };
+        sym2.display();
     }
 }
 
-void Line::Erase() {
-    win.SetPos(X - ((Y + line_length) % 2), (Y + line_length));
+void Line::Clean() {
+    win.SetPos(x - ((y - line_length) % 2), (y - line_length));
     std::cout << " ";
-    if ((Y + line_length) % 2 == 1) {
-        win.SetPos(X + ((Y + line_length) % 2), (Y + line_length));
+    if ((y - line_length) % 2 == 1) {
+        win.SetPos(x + ((y - line_length) % 2), (y - line_length));
         std::cout << " ";
     }
 }

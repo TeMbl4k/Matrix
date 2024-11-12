@@ -50,8 +50,5 @@
     <ClInclude Include="Run.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="cs.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

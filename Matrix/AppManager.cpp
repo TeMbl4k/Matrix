@@ -55,19 +55,19 @@ void AppManager::welcome() {
         }
     }
 
-    // Запрашиваем включение режима эпилепсии (Y/N) с проверкой на корректность
+    // Запрашиваем включение режима эпилепсии (y/N) с проверкой на корректность
     string epilepsy_input;
-    cout << "Epilepsy mode (Y/N): ";
+    cout << "Epilepsy mode (y/N): ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищаем буфер ввода
     while (true) {
         getline(cin, epilepsy_input); // Читаем ввод
-        // Проверяем, введен ли один из допустимых символов (Y/N, y/n)
-        if (epilepsy_input.length() == 1 && (epilepsy_input[0] == 'Y' || epilepsy_input[0] == 'N' || epilepsy_input[0] == 'y' || epilepsy_input[0] == 'n')) {
-            epilepsy = (epilepsy_input[0] == 'Y' || epilepsy_input[0] == 'y'); // Определяем режим эпилепсии
+        // Проверяем, введен ли один из допустимых символов (y/N, y/n)
+        if (epilepsy_input.length() == 1 && (epilepsy_input[0] == 'y' || epilepsy_input[0] == 'N' || epilepsy_input[0] == 'y' || epilepsy_input[0] == 'n')) {
+            epilepsy = (epilepsy_input[0] == 'y' || epilepsy_input[0] == 'y'); // Определяем режим эпилепсии
             break;
         }
         else {
-            cout << "Print correct flag (Y/N): ";
+            cout << "Print correct flag (y/N): ";
         }
     }
 }
@@ -78,7 +78,7 @@ void AppManager::startApp(int argc, char* argv[]) {
     if (argc > 1) {
         // Если передан флаг --help или /?, выводим инструкцию по использованию программы
         if (string(argv[1]) == "--help" || string(argv[1]) == "/?") {
-            cout << "Usage: matrix.exe [speed (1-30)] [length (1-30)] [epilepsy (Y/N)]" << endl;
+            cout << "Usage: matrix.exe [speed (1-30)] [length (1-30)] [epilepsy (y/N)]" << endl;
             return;
         }
 
@@ -117,12 +117,12 @@ void AppManager::startApp(int argc, char* argv[]) {
 
                 // Проверяем третий аргумент (режим эпилепсии)
                 string input = argv[4];
-                if (input.length() == 1 && (input[0] == 'Y' || input[0] == 'y' || input[0] == 'N' || input[0] == 'n')) {
+                if (input.length() == 1 && (input[0] == 'y' || input[0] == 'y' || input[0] == 'N' || input[0] == 'n')) {
                     epilepsy_flag = input[0];
-                    epilepsy = (epilepsy_flag == 'Y' || epilepsy_flag == 'y');
+                    epilepsy = (epilepsy_flag == 'y' || epilepsy_flag == 'y');
                 }
                 else {
-                    cout << "Invalid epilepsy flag. Use Y/N." << endl;
+                    cout << "Invalid epilepsy flag. Use y/N." << endl;
                     validArgs = false;
                 }
 
