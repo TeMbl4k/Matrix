@@ -2,7 +2,6 @@
 #include <windows.h>
 #include "Line.h"
 
-//Line::Line(int line_length, int line_speed, bool epilepsy) : line_length(line_length), line_speed((double)1.0 / line_speed), epilepsy(epilepsy) {
 Line::Line(int line_length, int line_speed, bool epilepsy) : line_length(line_length), line_speed(1000/ line_speed), epilepsy(epilepsy) {
     std::tie(width, height) = win.get_console_size();
 
@@ -12,7 +11,6 @@ Line::Line(int line_length, int line_speed, bool epilepsy) : line_length(line_le
 
 void Line::PrintTry() {
     end_time = std::chrono::steady_clock::now();
-    //if (!end_of_line && std::chrono::duration<double>(end_time - start_time).count() >= line_speed) {
     if (!end_of_line && std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() >= line_speed) {
         PrintLine();
         start_time = std::chrono::steady_clock::now();

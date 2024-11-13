@@ -21,17 +21,12 @@ void Run::Start() {
             auto begin = points.begin();
             if (elapsed_time.count() >= *begin) {
                 points.erase(begin);
-                /*Line line(line_length, line_speed, epilepsy);
-                lines.push_back(line);*/
                 lines.emplace_back(line_length+1, line_speed, epilepsy);
             }
         }
 
-        /*end_time = std::chrono::steady_clock::now();
-        elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);*/
         if (elapsed_time.count() > 1) {
             start_time = std::chrono::steady_clock::now();
-            //points.clear();
             rand_tp();
         }
         if (!lines.empty()) {
