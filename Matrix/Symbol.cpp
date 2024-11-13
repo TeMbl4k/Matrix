@@ -28,6 +28,5 @@ void Symbol::display() {
     }
 }
 
-Symbol::~Symbol() = default;
 
 

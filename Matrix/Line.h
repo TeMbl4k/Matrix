@@ -12,7 +12,8 @@ class Line {
 
 private:
     int line_length;
-    double line_speed;
+    //double line_speed;
+    int line_speed;
     bool epilepsy;
     int width;
     int height;
@@ -31,7 +32,7 @@ private:
 public:
     bool end_of_line = false;
     Line(int line_length, int line_speed, bool epilepsy);
-    void tryPrint();
+    void PrintTry();
     void PrintLine();
 };
 

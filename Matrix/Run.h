@@ -20,11 +20,6 @@ class Run {
 public:
     Run(int line_length, int line_speed, int line_frequency, bool epilepsy);
     void Start();
-
-    void set_time_points();
-
-    double rand_double(double a, double b);
-};
-
-
+    void rand_tp();
+}; 
 #endif

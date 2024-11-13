@@ -13,7 +13,6 @@ public:
     Symbol(bool epilepsyMode);
     char getRandomSymbol();
     void display();
-    ~Symbol();
 };
 
 #endif // SyMBOL_H

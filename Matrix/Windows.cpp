@@ -22,6 +22,15 @@ std::pair<int, int> Windows::get_console_size() {
     return {width, height};
 }
 
+void Windows::hidecursor()
+{
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+    info.dwSize = 100;
+    info.bVisible = FALSE;
+    SetConsoleCursorInfo(consoleHandle, &info);
+}
+
 void Windows::clean() {
     HANDLE hStdout;
     hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -29,7 +38,8 @@ void Windows::clean() {
 }
 
 void Windows::cls(void* hConsole) {
-    COORD coordScreen = { 0, 0 };
+    system("cls");
+    /*COORD coordScreen = { 0, 0 };
     DWORD cCharsWritten;
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     DWORD dwConSize;
@@ -40,7 +50,7 @@ void Windows::cls(void* hConsole) {
 
     dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
 
-    if (!FillConsoleOutputCharacter(hConsole,(TCHAR)' ', dwConSize, coordScreen, &cCharsWritten)) {
+   if (!FillConsoleOutputCharacter(hConsole, (TCHAR)' ', dwConSize, coordScreen, &cCharsWritten)) {
         return;
     }
 
@@ -51,15 +61,5 @@ void Windows::cls(void* hConsole) {
     if (!FillConsoleOutputAttribute(hConsole, csbi.wAttributes, dwConSize, coordScreen, &cCharsWritten)) {
         return;
     }
-
-    SetConsoleCursorPosition(hConsole, coordScreen);
-}
-
-void Windows::hidecursor()
-{
-    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO info;
-    info.dwSize = 100;
-    info.bVisible = FALSE;
-    SetConsoleCursorInfo(consoleHandle, &info);
+    SetConsoleCursorPosition(hConsole, coordScreen);*/
 }
