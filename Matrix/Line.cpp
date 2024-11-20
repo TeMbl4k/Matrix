@@ -4,8 +4,7 @@
 
 Line::Line(int line_length, int line_speed, bool epilepsy) : line_length(line_length), line_speed(1000/ line_speed), epilepsy(epilepsy) {
     std::tie(width, height) = win.get_console_size();
-
-    x = 1 + rand() % (width - 2);
+    x = rand() % (width - 2) + 1;
     y = 0;
 }
 

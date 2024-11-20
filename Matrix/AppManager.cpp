@@ -151,10 +151,9 @@ void AppManager::startApp(int argc, char* argv[]) {
     }
 
     srand(time(nullptr));
-    Windows win; //
+    Windows win;
     win.clean();
     win.hidecursor();
-
 
     Run run(line_length, line_speed, line_frequency, epilepsy);
 }

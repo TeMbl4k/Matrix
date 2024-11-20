@@ -18,28 +18,23 @@ void Run::Start() {
         end_time = std::chrono::steady_clock::now();
         elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         if (!points.empty()) {
-            auto begin = points.begin();
-            if (elapsed_time.count() >= *begin) {
-                points.erase(begin);
-                lines.emplace_back(line_length+1, line_speed, epilepsy);
+            if (elapsed_time.count() >= points[0]) {
+                points.erase(points.begin());
+                Line line1(line_length + 1, line_speed, epilepsy);
+                lines.push_back(line1);
             }
         }
 
-        if (elapsed_time.count() > 1) {
-            start_time = std::chrono::steady_clock::now();
+        if (elapsed_time.count() >= 1) {
             rand_tp();
+            start_time = std::chrono::steady_clock::now();
         }
-        if (!lines.empty()) {
-            for (auto iter = lines.begin(); iter != lines.end();) {
-                if (iter->end_of_line) {
-                    iter = lines.erase(iter);
-                }
-                else {
-                    iter->PrintTry();
-                    ++iter;
-                }
-            }
-        }
+        
+        for (int i = 0; i < lines.size(); i++)
+            if (lines[i].end_of_line)
+                lines.erase(lines.begin() + i--);
+            else
+                lines[i].PrintTry();
     }
 }
 
