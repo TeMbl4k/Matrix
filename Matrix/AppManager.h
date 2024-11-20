@@ -11,6 +11,7 @@ private:
     int line_frequency;
     bool epilepsy;
     char epilepsy_flag;
+    int max_rad, min_rad, exp_prob;
 
 public:
     void welcome();

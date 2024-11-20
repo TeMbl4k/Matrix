@@ -14,6 +14,10 @@ public:
     char getRandomSymbol();
     void display();
     ~Symbol();
+
+    static void SetColor(int text);
+    char Disp() const;
+
 };
 
 #endif // SyMBOL_H

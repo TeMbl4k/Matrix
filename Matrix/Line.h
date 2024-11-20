@@ -7,8 +7,9 @@
 #include "Symbol.h"
 #include "cs.h"
 #include "Windows.h"
+#include "Figure.h"
 
-class Line {
+class Line : public Figure {
 
 private:
     int line_length;
@@ -16,6 +17,8 @@ private:
     bool epilepsy;
     int width;
     int height;
+
+    int max_rad, min_rad, exp_prob;
 
     int x = 0;
     int y = 0;
@@ -30,8 +33,8 @@ private:
 
 public:
     bool end_of_line = false;
-    Line(int line_length, int line_speed, bool epilepsy);
-    void tryPrint();
+    Line(int line_lenght, int line_speed, int exp_prob, bool epilepsy);
+    void TryMove() override;
     void PrintLine();
 };
 

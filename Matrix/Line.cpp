@@ -2,17 +2,21 @@
 #include <windows.h>
 #include "Line.h"
 
-Line::Line(int line_length, int line_speed, bool epilepsy) : line_length(line_length), line_speed((double)1.0 / line_speed), epilepsy(epilepsy) {
+Line::Line(int line_length, int line_speed, int exp_prob, bool epilepsy) : line_length(line_length), line_speed((double)1.0 / line_speed), exp_prob(exp_prob), epilepsy(epilepsy) {
     std::tie(width, height) = win.get_console_size();
 
     x = 1 + rand() % (width - 2);
     y = 0;
 }
 
-void Line::tryPrint() {
+void Line::TryMove() {
+    isExplod = false;
     end_time = std::chrono::steady_clock::now();
-    if (!end_of_line && std::chrono::duration<double>(end_time - start_time).count() >= line_speed) {
+    if (std::chrono::duration<double>(end_time - start_time).count() >= line_speed && !EOL) {
         PrintLine();
+        if (rand() % 1000 <= exp_prob) {
+            isExplod = true;
+        }
         start_time = std::chrono::steady_clock::now();
     }
 }

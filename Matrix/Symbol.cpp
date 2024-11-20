@@ -28,6 +28,19 @@ void Symbol::display() {
     }
 }
 
+char Symbol::Disp() const {
+    int n = 33 + rand() % (126 - 33);
+
+    SetColor(2); //green
+    
+    return char(n);
+}
+
+void Symbol::SetColor(int text) {
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hStdOut, (WORD)(text));
+}
+
 Symbol::~Symbol() = default;
 
 

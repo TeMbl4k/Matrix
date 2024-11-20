@@ -55,6 +55,45 @@ void AppManager::welcome() {
         }
     }
 
+    cout << "Print ExplosionProbability (1 - 1000): ";
+    while (true) {
+        cin >> exp_prob;
+        if (cin.fail() || exp_prob < 1 || exp_prob > 1000) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number between 1 and 30: ";
+        }
+        else {
+            break;
+        }
+    }
+
+    cout << "Print min rad (1 - 30): ";
+    while (true) {
+        cin >> min_rad;
+        if (cin.fail() || min_rad < 1 || min_rad > 30) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number between 1 and 30: ";
+        }
+        else {
+            break;
+        }
+    }
+
+    cout << "Print max rad (1 - 30): ";
+    while (true) {
+        cin >> max_rad;
+        if (cin.fail() || max_rad < 1 || max_rad > 30) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number between 1 and 30: ";
+        }
+        else {
+            break;
+        }
+    }
+
     // Запрашиваем включение режима эпилепсии (y/N) с проверкой на корректность
     string epilepsy_input;
     cout << "Epilepsy mode (y/N): ";
@@ -156,7 +195,7 @@ void AppManager::startApp(int argc, char* argv[]) {
     win.hidecursor();
 
 
-    Run run(line_length, line_speed, line_frequency, epilepsy);
+    Run run(line_length, line_speed, line_frequency, epilepsy, exp_prob, min_rad, max_rad);
 }
 
 
