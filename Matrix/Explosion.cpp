@@ -3,45 +3,44 @@
 
 void Explosion::TryMove() {
     end_time = std::chrono::steady_clock::now();
-    if (std::chrono::duration<double>(end_time - start_time).count() >= 0.5 && !EOL) {
+    if (std::chrono::duration<double>(end_time - start_time).count() >= 0.5 && !end_of_line) {
         Move();
         start_time = std::chrono::steady_clock::now();
     }
 }
 
 void Explosion::Move() {
-    if (curR <= maxR) {
+    if (cur_rad <= max_rad) {
         Draw();
         Erase();
-        curR++;
+        cur_rad++;
     }
     else {
         Erase();
-        EOL = true;
+        end_of_line = true;
         this->~Explosion();
     }
 }
 
-Explosion::Explosion(int x, int y, int minR, int maxR) : e_x(x), e_y(y), minR(minR), maxR(maxR) {
-    curR = minR;
+Explosion::Explosion(int x, int y, int min_rad, int max_rad) : e_x(x), e_y(y), min_rad(min_rad), max_rad(max_rad) {
+    cur_rad = min_rad;
 }
 
 void Explosion::Draw() {
-    for (int curY = e_y + curR; curY >= e_y - curR; --curY) {
-        for (int curX = e_x - curR; curX < e_x + (curR + 0.4); ++curX) {
-            if (sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) >= (curR - 0.4) && sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) <= (curR + 0.4)) {
-                Symbol sym2{ true };
-                Figure::Print(curX, curY, sym.Disp());
+    for (int curY = e_y + cur_rad; curY >= e_y - cur_rad; --curY) {
+        for (int curX = e_x - cur_rad; curX < e_x + (cur_rad + 0.4); ++curX) {
+            if (sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) >= (cur_rad - 0.4) && sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) <= (cur_rad + 0.4)) {
+                Figure::Draw(curX, curY, sym.SetValue());
             }
         }
     }
 }
 
 void Explosion::Erase() {
-    for (int curY = e_y + (curR - 1); curY >= e_y - (curR - 1); --curY) {
-        for (int curX = e_x - (curR - 1); curX < e_x + ((curR - 1) + 0.4); ++curX) {
-            if (sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) >= ((curR - 1) - 0.4) && sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) <= ((curR - 1) + 0.4)) {
-                Figure::Print(curX, curY, ' ');
+    for (int curY = e_y + (cur_rad - 1); curY >= e_y - (cur_rad - 1); --curY) {
+        for (int curX = e_x - (cur_rad - 1); curX < e_x + ((cur_rad - 1) + 0.4); ++curX) {
+            if (sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) >= ((cur_rad - 1) - 0.4) && sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) <= ((cur_rad - 1) + 0.4)) {
+                Figure::Draw(curX, curY, ' ');
             }
         }
     }

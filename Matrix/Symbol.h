@@ -1,23 +1,42 @@
-#ifndef SyMBOL_H
-#define SyMBOL_H
+#ifndef MATRIX_SYMBOL_H
+#define MATRIX_SYMBOL_H
 
-#include <iostream>
-#include <cstdlib>
 
 class Symbol {
-private:
-    char symbol;
-    bool epilepsy;
-
+    bool EpilepsyMode;
 public:
-    Symbol(bool epilepsyMode);
-    char getRandomSymbol();
-    void display();
-    ~Symbol();
-
+    explicit Symbol(bool epilepsyMode);
     static void SetColor(int text);
-    char Disp() const;
+    static void SetTextColor();
+    char SetValue() const;
 
+    ~Symbol();
 };
 
-#endif // SyMBOL_H
+
+#endif //MATRIX_SYMBOL_H
+
+
+//#ifndef SyMBOL_H
+//#define SyMBOL_H
+//
+//#include <iostream>
+//#include <cstdlib>
+//
+//class Symbol {
+//private:
+//    char symbol;
+//    bool epilepsy;
+//
+//public:
+//    Symbol(bool epilepsyMode);
+//    char getRandomSymbol();
+//    void display();
+//    ~Symbol();
+//
+//    static void SetColor(int text);
+//    char Disp() const;
+//
+//};
+//
+//#endif // SyMBOL_H

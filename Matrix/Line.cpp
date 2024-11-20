@@ -12,8 +12,8 @@ Line::Line(int line_length, int line_speed, int exp_prob, bool epilepsy) : line_
 void Line::TryMove() {
     isExplod = false;
     end_time = std::chrono::steady_clock::now();
-    if (std::chrono::duration<double>(end_time - start_time).count() >= line_speed && !EOL) {
-        PrintLine();
+    if (std::chrono::duration<double>(end_time - start_time).count() >= line_speed && !end_of_line) {
+        Move();
         if (rand() % 1000 <= exp_prob) {
             isExplod = true;
         }
@@ -21,44 +21,39 @@ void Line::TryMove() {
     }
 }
 
-void Line::PrintLine() {
+void Line::Move() {
     if (y == height) {
         end = true;
     }
     if (y < height) {
-        PrintSym();
+        Draw();
         y++;
     }
     if (y - line_length == height) {
         end_of_line = true;
+        this->~Line();
     }
     else {
         if (y >= line_length) {
             if (end) {
                 y++;
             }
-            Clean();
+            Erase();
         }
 
     }
 }
 
-void Line::PrintSym() {
-    win.SetPos(x - (y % 2), y);
-    Symbol sym1{ epilepsy };
-    sym1.display();
+void Line::Draw() {
+    Figure::Draw(x - (y % 2), y, sym.SetValue());
     if (y % 2 == 1) {
-        win.SetPos(x + (y % 2), y);
-        Symbol sym2{ epilepsy };
-        sym2.display();
+        Figure::Draw(x + (y % 2), y, sym.SetValue());
     }
 }
 
-void Line::Clean() {
-    win.SetPos(x - ((y - line_length) % 2), (y - line_length));
-    std::cout << " ";
+void Line::Erase() {
+    Figure::Draw(x - ((y - line_length) % 2), (y - line_length), ' ');
     if ((y - line_length) % 2 == 1) {
-        win.SetPos(x + ((y - line_length) % 2), (y - line_length));
-        std::cout << " ";
+        Figure::Draw(x + ((y - line_length) % 2), (y - line_length), ' ');
     }
 }

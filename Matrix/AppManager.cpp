@@ -190,7 +190,7 @@ void AppManager::startApp(int argc, char* argv[]) {
     }
 
     srand(time(nullptr));
-    Windows win; //
+    Windows win; 
     win.clean();
     win.hidecursor();
 

@@ -8,18 +8,16 @@
 class Figure {
 
 protected:
-    int X, Y;
+    int x, y;
+    int width, height;
     std::pair<int, int> coordinates;
-    Windows windows;
-
-    int width;
-    int height;
+    Windows win;
 
 public:
     const std::pair<int, int>& getCoordinates();
-    void Print(int x, int y, char symbol);
+    void Draw(int x, int y, char symbol);
     virtual void TryMove() = 0;
-    bool EOL = false;
+    bool end_of_line = false;
     bool isExplod = false;
 };
 

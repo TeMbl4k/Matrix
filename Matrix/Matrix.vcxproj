@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ArrayList.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="main.cpp" />
@@ -139,12 +138,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppManager.h" />
-    <ClInclude Include="ArrayList.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Figure.h" />
-    <ClInclude Include="Iterator.h" />
     <ClInclude Include="Line.h" />
-    <ClInclude Include="List.h" />
     <ClInclude Include="Run.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="Windows.h" />
