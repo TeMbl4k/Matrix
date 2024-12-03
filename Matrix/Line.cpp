@@ -1,5 +1,4 @@
 #include <iostream>
-#include <windows.h>
 #include "Line.h"
 
 Line::Line(int line_length, int line_speed, int exp_prob, bool epilepsy) : line_length(line_length), line_speed((double)1.0 / line_speed), exp_prob(exp_prob), epilepsy(epilepsy) {

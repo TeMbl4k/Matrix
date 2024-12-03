@@ -21,7 +21,7 @@ class Run {
 
     int height, width;
 
-    std::vector<Figure*> figures;
+    std::vector<std::unique_ptr<Figure>> figures;
     std::vector<double> points;
     std::chrono::time_point<std::chrono::steady_clock> start_time, end_time;
     std::chrono::duration<double> elapsed_time;

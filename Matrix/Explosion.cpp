@@ -18,7 +18,6 @@ void Explosion::Move() {
     else {
         Erase();
         end_of_line = true;
-        this->~Explosion();
     }
 }
 

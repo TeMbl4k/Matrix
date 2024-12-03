@@ -20,7 +20,6 @@ public:
     void Draw();
     void Erase();
 
-    ~Explosion() { sym.~Symbol(); }
 };
 
 

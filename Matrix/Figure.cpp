@@ -1,5 +1,8 @@
 #include <cstdio>
 #include "Figure.h"
+#include <iostream>
+
+using namespace std;
 
 void Figure::Draw(int x, int y, char sym) {
 
@@ -7,29 +10,12 @@ void Figure::Draw(int x, int y, char sym) {
 
     if (x > 0 && x < width && y > 0 && y < height) {
         win.SetPos(x, y);
-        printf("%c", sym);
+        cout << sym;
     }
 }
 
-const std::pair<int, int>& Figure::getCoordinates() {
+const std::pair<int, int> &Figure::getCoordinates() {
     coordinates.first = x;
     coordinates.second = y;
     return coordinates;
 }
-
-//#include <cstdio>
-//#include "Figure.h"
-//
-//void Figure::Print(int x, int y, char symbol) {
-//    std::tie(width, height) = windows.get_console_size();
-//    if (x > 0 && x < width && y > 0 && y < height) {
-//        windows.SetPos(x, y);
-//        printf("%c", symbol);
-//    }
-//}
-//
-//const std::pair<int, int>& Figure::getCoordinates() {
-//    coordinates.first = X;
-//    coordinates.second = Y;
-//    return coordinates;
-//}
