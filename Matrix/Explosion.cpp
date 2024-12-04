@@ -21,25 +21,25 @@ void Explosion::Move() {
     }
 }
 
-Explosion::Explosion(int x, int y, int min_rad, int max_rad) : e_x(x), e_y(y), min_rad(min_rad), max_rad(max_rad) {
-    cur_rad = min_rad;
+Explosion::Explosion(int x, int y, int minR, int max_rad) : e_x(x), e_y(y), minR(minR), max_rad(max_rad) {
+    cur_rad = minR;
 }
 
 void Explosion::Draw() {
-    for (int curY = e_y + cur_rad; curY >= e_y - cur_rad; --curY) {
-        for (int curX = e_x - cur_rad; curX < e_x + (cur_rad + 0.4); ++curX) {
-            if (sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) >= (cur_rad - 0.4) && sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) <= (cur_rad + 0.4)) {
-                Figure::Draw(curX, curY, sym.SetValue());
+    for (int cur_y = e_y + cur_rad; cur_y >= e_y - cur_rad; --cur_y) {
+        for (int cur_x = e_x - cur_rad; cur_x < e_x + (cur_rad + 0.4); ++cur_x) {
+            if (sqrt(pow(cur_x - e_x, 2) + pow(cur_y - e_y, 2)) >= (cur_rad - 0.4) && sqrt(pow(cur_x - e_x, 2) + pow(cur_y - e_y, 2)) <= (cur_rad + 0.4)) {
+                Figure::Draw(cur_x, cur_y, symbol.SetValue());
             }
         }
     }
 }
 
 void Explosion::Erase() {
-    for (int curY = e_y + (cur_rad - 1); curY >= e_y - (cur_rad - 1); --curY) {
-        for (int curX = e_x - (cur_rad - 1); curX < e_x + ((cur_rad - 1) + 0.4); ++curX) {
-            if (sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) >= ((cur_rad - 1) - 0.4) && sqrt(pow(curX - e_x, 2) + pow(curY - e_y, 2)) <= ((cur_rad - 1) + 0.4)) {
-                Figure::Draw(curX, curY, ' ');
+    for (int cur_y = e_y + (cur_rad - 1); cur_y >= e_y - (cur_rad - 1); --cur_y) {
+        for (int cur_x = e_x - (cur_rad - 1); cur_x < e_x + ((cur_rad - 1) + 0.4); ++cur_x) {
+            if (sqrt(pow(cur_x - e_x, 2) + pow(cur_y - e_y, 2)) >= ((cur_rad - 1) - 0.4) && sqrt(pow(cur_x - e_x, 2) + pow(cur_y - e_y, 2)) <= ((cur_rad - 1) + 0.4)) {
+                Figure::Draw(cur_x, cur_y, ' ');
             }
         }
     }

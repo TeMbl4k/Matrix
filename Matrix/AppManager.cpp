@@ -13,14 +13,12 @@ void AppManager::welcome() {
 
     cout << "          Welcome to Matrix -_-\n============================================" << endl;
 
-    // Запрашиваем у пользователя скорость линии (1-30) с проверкой на корректность
     std::cout << "Print line speed (1 - 30): ";
     while (true) {
         cin >> line_speed;
-        // Если ввод некорректный или число не в диапазоне, повторяем запрос
         if (cin.fail() || line_speed < 1 || line_speed > 30) {
-            cin.clear(); // Очищаем флаг ошибки
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Игнорируем некорректный ввод
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input. Please enter a valid number: ";
         }
         else {
@@ -28,10 +26,9 @@ void AppManager::welcome() {
         }
     }
 
-    // Запрашиваем длину линии с проверкой на корректность (аналогично предыдущему шагу)
     cout << "Print line length (1 - 30): ";
     while (true) {
-        cin >> line_length; // Читаем длину
+        cin >> line_length;
         if (cin.fail() || line_length < 1 || line_length > 30) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -55,7 +52,7 @@ void AppManager::welcome() {
         }
     }
 
-    cout << "Print ExplosionProbability (1 - 1000): ";
+    cout << "Print exp_prob (1 - 1000): ";
     while (true) {
         cin >> exp_prob;
         if (cin.fail() || exp_prob < 1 || exp_prob > 1000) {
@@ -94,15 +91,13 @@ void AppManager::welcome() {
         }
     }
 
-    // Запрашиваем включение режима эпилепсии (y/N) с проверкой на корректность
     string epilepsy_input;
     cout << "Epilepsy mode (y/N): ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищаем буфер ввода
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     while (true) {
-        getline(cin, epilepsy_input); // Читаем ввод
-        // Проверяем, введен ли один из допустимых символов (y/N, y/n)
+        getline(cin, epilepsy_input);
         if (epilepsy_input.length() == 1 && (epilepsy_input[0] == 'Y' || epilepsy_input[0] == 'N' || epilepsy_input[0] == 'y' || epilepsy_input[0] == 'n')) {
-            epilepsy = (epilepsy_input[0] == 'Y' || epilepsy_input[0] == 'y'); // Определяем режим эпилепсии
+            epilepsy = (epilepsy_input[0] == 'Y' || epilepsy_input[0] == 'y');
             break;
         }
         else {
@@ -112,19 +107,16 @@ void AppManager::welcome() {
 }
 
 void AppManager::startApp(int argc, char* argv[]) {
-    bool validArgs = true;  // Флаг для проверки аргументов
+    bool validArgs = true;
 
     if (argc > 1) {
-        // Если передан флаг --help или /?, выводим инструкцию по использованию программы
         if (string(argv[1]) == "--help" || string(argv[1]) == "/?") {
             cout << "Usage: matrix.exe [speed (1-30)] [length (1-30)] [epilepsy (y/N)]" << endl;
             return;
         }
 
-        // Если передано ровно 3 аргумента, выполняем их обработку
-        if (argc == 5) {
+        if (argc == 8) {
             try {
-                // Преобразуем первый аргумент (скорость линии) в число и проверяем его диапазон
                 int speed = stoi(argv[1]);
                 if (speed < 1 || speed > 30) {
                     cout << "Invalid speed. Speed must be between 1 and 30." << endl;
@@ -134,7 +126,6 @@ void AppManager::startApp(int argc, char* argv[]) {
                     line_speed = speed;
                 }
 
-                // Преобразуем второй аргумент (длина линии) в число и проверяем его диапазон
                 int length = stoi(argv[2]);
                 if (length < 1 || length > 30) {
                     cout << "Invalid length. Length must be between 1 and 30." << endl;
@@ -153,15 +144,40 @@ void AppManager::startApp(int argc, char* argv[]) {
                     line_frequency = frequency;
                 }
 
+                int exp_prob = stoi(argv[4]);
+                if (frequency < 1 || frequency > 30) {
+                    cout << "Invalid frequency. Length must be between 1 and 30." << endl;
+                    validArgs = false;
+                }
+                else {
+                    line_frequency = frequency;
+                }
 
-                // Проверяем третий аргумент (режим эпилепсии)
-                string input = argv[4];
-                if (input.length() == 1 && (input[0] == 'y' || input[0] == 'y' || input[0] == 'N' || input[0] == 'n')) {
+                int min_rad = stoi(argv[5]);
+                if (frequency < 1 || frequency > 30) {
+                    cout << "Invalid frequency. Length must be between 1 and 30." << endl;
+                    validArgs = false;
+                }
+                else {
+                    line_frequency = frequency;
+                }
+
+                int max_rad = stoi(argv[6]);
+                if (frequency < 1 || frequency > 30) {
+                    cout << "Invalid frequency. Length must be between 1 and 30." << endl;
+                    validArgs = false;
+                }
+                else {
+                    line_frequency = frequency;
+                }
+
+                string input = argv[7];
+                if (input.length() == 1 && (input[0] == 'Y' || input[0] == 'y' || input[0] == 'N' || input[0] == 'n')) {
                     epilepsy_flag = input[0];
                     epilepsy = (epilepsy_flag == 'Y' || epilepsy_flag == 'y');
                 }
                 else {
-                    cout << "Invalid epilepsy flag. Use y/N." << endl;
+                    cout << "Invalid epilepsy flag. Use Y/N." << endl;
                     validArgs = false;
                 }
 
@@ -181,16 +197,15 @@ void AppManager::startApp(int argc, char* argv[]) {
         }
     }
     else {
-        validArgs = false; // Если аргументов нет, устанавливаем флаг в false для вызова диалогового режима
+        validArgs = false;
     }
 
-    // Если аргументы некорректны или отсутствуют, вызываем диалоговый режим
     if (!validArgs) {
         welcome();
     }
 
     srand(time(nullptr));
-    Windows win; 
+    Windows win;
     win.clean();
     win.hidecursor();
 

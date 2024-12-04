@@ -2,12 +2,11 @@
 #include <vector>
 #include <algorithm>
 #include <random>
-#include <memory>
 
 #include "Run.h"
 #include "Line.h"
 
-void Run::Start(){
+void Run::Start() {
     while (true) {
         end_time = std::chrono::steady_clock::now();
         elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -16,63 +15,56 @@ void Run::Start(){
             auto begin = points.begin();
             if (elapsed_time.count() >= *begin) {
                 points.erase(begin);
-                figures.push_back(std::make_unique<Line>(line_length, line_speed, exp_prob, epilepsy));
-                /*figures.push_back(new Line(line_length, line_speed, exp_prob, epilepsy));*/
+                figures.push_back(new Line(line_length + 1, line_speed, exp_prob, epilepsy));
             }
         }
-        end_time = std::chrono::steady_clock::now();
-        elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
         if (elapsed_time.count() > 1) {
             start_time = std::chrono::steady_clock::now();
             points.clear();
-            set_time_points();
+            SetRandTimePoints();
         }
 
         if (!figures.empty()) {
-            for (auto iter = figures.begin(); iter != figures.end();) {
-                if ((*iter)->end_of_line) {
-                    iter = figures.erase(iter);
-                }
+            for (int i = 0; i < figures.size(); i++) {
+                if (figures[i]->end_of_line)
+                    figures.erase(figures.begin() + i--);
                 else {
-                    (*iter)->TryMove();
-                    if ((*iter)->isExplod) {
-                        figures.push_back(std::make_unique<Explosion>(
-                            (*iter)->getCoordinates().first,
-                            (*iter)->getCoordinates().second,
-                            min_rad, max_rad
-                        ));
-                        //figures.insert(figures.begin(), new Explosion((*iter)->getCoordinates().first, (*iter)->getCoordinates().second, min_rad, max_rad));
+                    figures[i]->TryMove();
+                    if (figures[i]->is_exploded) {
+                        figures.push_back(new Explosion(figures[i]->getCoordinates().first, figures[i]->getCoordinates().second, min_rad, max_rad));
                     }
-                    ++iter;
                 }
             }
         }
     }
 }
 
-
-Run::Run(int line_length, int line_speed, int line_frequency, bool epilepsy, int expprob, int minrad, int maxrad) : line_length(line_length), line_speed(line_speed), line_frequency(line_frequency), epilepsy(epilepsy), exp_prob(expprob), min_rad(minrad), max_rad(maxrad) {
+Run::Run(int line_length, int line_speed, int line_freq, bool epilepsy, int exp_prob, int min_rad, int max_rad)
+    : line_length(line_length), line_speed(line_speed), line_freq(line_freq),
+    epilepsy(epilepsy), exp_prob(exp_prob),
+    min_rad(min_rad), max_rad(max_rad) {
 
     Windows win;
+
     std::tie(width, height) = win.get_console_size();
-    set_time_points();
-    figures.reserve(line_frequency * line_speed * height * exp_prob);
+    SetRandTimePoints();
+    figures.reserve(line_freq * line_speed * height * exp_prob);
     start_time = std::chrono::steady_clock::now();
     Start();
 }
 
-void Run::set_time_points() {
-    for (size_t i = 0; i < line_frequency; i++) {
-        points.push_back(rand_double((double)0, (double)1));
+void Run::SetRandTimePoints() {
+    for (size_t i = 0; i < line_freq; i++) {
+        points.push_back(GetRandomDouble(0.0, 1.0));
     }
-    std::sort(begin(points), end(points));
+    std::sort(points.begin(), points.end());
 }
 
-double Run::rand_double(double a, double b) {
+double Run::GetRandomDouble(double a, double b) {
     namespace sc = std::chrono;
-    auto time = sc::system_clock::now(); // get the current time
-    auto since_epoch = time.time_since_epoch(); // get the duration since epoch
+    auto time = sc::system_clock::now();
+    auto since_epoch = time.time_since_epoch();
     auto millis = sc::duration_cast<sc::nanoseconds>(since_epoch);
 
     std::random_device rd;
@@ -81,4 +73,3 @@ double Run::rand_double(double a, double b) {
 
     return dis(gen);
 }
-

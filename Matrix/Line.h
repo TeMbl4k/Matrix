@@ -1,43 +1,38 @@
-#ifndef LINE_H
-#define LINE_H
+#ifndef MATRIX_LINE_H
+#define MATRIX_LINE_H
+
 
 #include <chrono>
-#include <tuple>
 #include "Symbol.h"
+#include "cs.h"
 #include "Windows.h"
 #include "Figure.h"
 
 class Line : public Figure {
 
 private:
+    int width, height;
     int line_length;
     double line_speed;
+    int exp_prob;
+
     bool epilepsy;
-
-    int width;
-    int height;
-
-    int max_rad, min_rad, exp_prob;
-
-    int x = 0;
-    int y = 0;
-
     bool end = false;
 
-    Windows win;
+
+    Symbol symbol = *new Symbol(epilepsy);
+    std::chrono::time_point<std::chrono::steady_clock> start_time, end_time;
 
     void Draw();
     void Erase();
     void Move();
 
-    Symbol sym = *new Symbol(epilepsy);
-    std::chrono::time_point<std::chrono::steady_clock> start_time, end_time;
-
 public:
-    Line(int line_lenght, int line_speed, int exp_prob, bool epilepsy);
+    Line(int line_length, int line_speed, int exp_prob, bool epilepsy);
     void TryMove() override;
-    ~Line() { sym.~Symbol(); }
+
+    ~Line() { symbol.~Symbol(); }
 };
 
 
-#endif 
+#endif //MATRIX_LINE_H

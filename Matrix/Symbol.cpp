@@ -6,7 +6,7 @@
 char Symbol::SetValue() const {
     int n = 33 + rand() % (126 - 33);
 
-    if (EpilepsyMode) {
+    if (epilepsy) {
         SetTextColor();
     }
     else {
@@ -14,6 +14,7 @@ char Symbol::SetValue() const {
     }
     return char(n);
 }
+
 
 void Symbol::SetColor(int text) {
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -25,7 +26,7 @@ void Symbol::SetTextColor() {
     SetColor(i);
 }
 
-Symbol::Symbol(bool epilepsyMode) : EpilepsyMode(epilepsyMode) {}
+Symbol::Symbol(bool epilepsy) : epilepsy(epilepsy) {}
 
 Symbol::~Symbol() = default;
 

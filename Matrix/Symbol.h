@@ -3,9 +3,9 @@
 
 
 class Symbol {
-    bool EpilepsyMode;
+    bool epilepsy;
 public:
-    explicit Symbol(bool epilepsyMode);
+    explicit Symbol(bool epilepsy);
     static void SetColor(int text);
     static void SetTextColor();
     char SetValue() const;
@@ -15,28 +15,3 @@ public:
 
 
 #endif //MATRIX_SYMBOL_H
-
-
-//#ifndef SyMBOL_H
-//#define SyMBOL_H
-//
-//#include <iostream>
-//#include <cstdlib>
-//
-//class Symbol {
-//private:
-//    char symbol;
-//    bool epilepsy;
-//
-//public:
-//    Symbol(bool epilepsyMode);
-//    char getRandomSymbol();
-//    void display();
-//    ~Symbol();
-//
-//    static void SetColor(int text);
-//    char Disp() const;
-//
-//};
-//
-//#endif // SyMBOL_H
