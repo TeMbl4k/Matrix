@@ -4,7 +4,6 @@
 
 #include <chrono>
 #include "Symbol.h"
-#include "cs.h"
 #include "Windows.h"
 #include "Figure.h"
 
@@ -19,7 +18,6 @@ private:
     bool epilepsy;
     bool end = false;
 
-
     Symbol symbol = *new Symbol(epilepsy);
     std::chrono::time_point<std::chrono::steady_clock> start_time, end_time;
 
@@ -30,8 +28,6 @@ private:
 public:
     Line(int line_length, int line_speed, int exp_prob, bool epilepsy);
     void TryMove() override;
-
-    ~Line() { symbol.~Symbol(); }
 };
 
 

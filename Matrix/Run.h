@@ -25,8 +25,7 @@ class Run {
 public:
     Run(int line_length, int line_speed, int line_freq, bool epilepsy, int exp_prob, int min_rad, int max_rad);
     void Start();
-    void SetRandTimePoints();
-    double GetRandomDouble(double a, double b);
+    void rand_points();
 };
 
 #endif //MATRIX_RUN_H

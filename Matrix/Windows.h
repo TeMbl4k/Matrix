@@ -9,7 +9,7 @@ class Windows {
 
 public:
     std::pair<int, int> get_console_size();
-    void GotoXY(int x, int y);
+    void SetXY(int x, int y);
     void clean();
 
     void cls(void* hConsole);

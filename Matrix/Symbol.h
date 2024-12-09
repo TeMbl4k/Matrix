@@ -9,8 +9,6 @@ public:
     static void SetColor(int text);
     static void SetTextColor();
     char SetValue() const;
-
-    ~Symbol();
 };
 
 

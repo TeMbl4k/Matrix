@@ -29,7 +29,7 @@ void Explosion::Draw() {
     for (int cur_y = e_y + cur_rad; cur_y >= e_y - cur_rad; --cur_y) {
         for (int cur_x = e_x - cur_rad; cur_x < e_x + (cur_rad + 0.4); ++cur_x) {
             if (sqrt(pow(cur_x - e_x, 2) + pow(cur_y - e_y, 2)) >= (cur_rad - 0.4) && sqrt(pow(cur_x - e_x, 2) + pow(cur_y - e_y, 2)) <= (cur_rad + 0.4)) {
-                Figure::Draw(cur_x, cur_y, symbol.SetValue());
+                Figure::Draw(cur_x, cur_y, sym.SetValue());
             }
         }
     }

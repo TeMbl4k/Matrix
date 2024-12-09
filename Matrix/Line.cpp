@@ -33,7 +33,6 @@ void Line::Move() {
     }
     if (Y - line_length == height) {
         end_of_line = true;
-        this->~Line();
     }
     else {
         if (Y >= line_length) {

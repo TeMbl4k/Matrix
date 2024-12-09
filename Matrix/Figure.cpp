@@ -9,7 +9,7 @@ void Figure::Draw(int x, int y, char symbol) {
     std::tie(width, height) = win.get_console_size();
 
     if (x > 0 && x < width && y > 0 && y < height) {
-        win.GotoXY(x, y);
+        win.SetXY(x, y);
         cout << symbol;
     }
 }

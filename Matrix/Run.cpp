@@ -22,7 +22,7 @@ void Run::Start() {
         if (elapsed_time.count() > 1) {
             start_time = std::chrono::steady_clock::now();
             points.clear();
-            SetRandTimePoints();
+            rand_points();
         }
 
         if (!figures.empty()) {
@@ -48,20 +48,13 @@ Run::Run(int line_length, int line_speed, int line_freq, bool epilepsy, int exp_
     Windows win;
 
     std::tie(width, height) = win.get_console_size();
-    SetRandTimePoints();
+    rand_points();
     figures.reserve(line_freq * line_speed * height * exp_prob);
     start_time = std::chrono::steady_clock::now();
     Start();
 }
 
-void Run::SetRandTimePoints() {
-    for (size_t i = 0; i < line_freq; i++) {
-        points.push_back(GetRandomDouble(0.0, 1.0));
-    }
-    std::sort(points.begin(), points.end());
-}
-
-double Run::GetRandomDouble(double a, double b) {
+void Run::rand_points() {
     namespace sc = std::chrono;
     auto time = sc::system_clock::now();
     auto since_epoch = time.time_since_epoch();
@@ -69,7 +62,11 @@ double Run::GetRandomDouble(double a, double b) {
 
     std::random_device rd;
     std::mt19937 gen(millis.count());
-    std::uniform_real_distribution<double> dis(a, b);
+    std::uniform_real_distribution<double> dis(0.0, 1.0);
 
-    return dis(gen);
+    for (size_t i = 0; i < line_freq; i++) {
+        points.push_back(dis(gen));
+    }
+    std::sort(points.begin(), points.end());
 }
+
