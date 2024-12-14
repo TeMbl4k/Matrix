@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayList.h" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="main.cpp" />
@@ -141,6 +142,8 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Run.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="Windows.h" />

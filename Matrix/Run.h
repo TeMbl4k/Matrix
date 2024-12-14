@@ -5,6 +5,8 @@
 #include <vector>
 #include "Line.h"
 #include "Explosion.h"
+#include "LinkedList.h"
+#include "ArrayList.h"
 
 class Run {
     int line_length = 0;
@@ -17,8 +19,12 @@ class Run {
 
     int height, width;
 
-    std::vector<Figure*> figures;
-    std::vector<double> points;
+    ArrayList<Figure*> figures;
+    ArrayList<double> points;
+
+
+    //std::vector<Figure*> figures;
+    //std::vector<double> points;
     std::chrono::time_point<std::chrono::steady_clock> start_time, end_time;
     std::chrono::duration<double> elapsed_time;
 

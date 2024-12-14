@@ -1,6 +1,4 @@
 #include <chrono>
-#include <vector>
-#include <algorithm>
 #include <random>
 
 #include "Run.h"
@@ -12,10 +10,9 @@ void Run::Start() {
         elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
         if (!points.empty()) {
-            auto begin = points.begin();
-            if (elapsed_time.count() >= *begin) {
-                points.erase(begin);
+            if (elapsed_time.count() >= points[0]) {
                 figures.push_back(new Line(line_length + 1, line_speed, exp_prob, epilepsy));
+                points.erase(0);
             }
         }
 
@@ -28,7 +25,7 @@ void Run::Start() {
         if (!figures.empty()) {
             for (int i = 0; i < figures.size(); i++) {
                 if (figures[i]->end_of_line)
-                    figures.erase(figures.begin() + i--);
+                    figures.erase(i--);
                 else {
                     figures[i]->TryMove();
                     if (figures[i]->is_exploded) {
@@ -49,7 +46,6 @@ Run::Run(int line_length, int line_speed, int line_freq, bool epilepsy, int exp_
 
     std::tie(width, height) = win.get_console_size();
     rand_points();
-    figures.reserve(line_freq * line_speed * height * exp_prob);
     start_time = std::chrono::steady_clock::now();
     Start();
 }
@@ -67,6 +63,13 @@ void Run::rand_points() {
     for (size_t i = 0; i < line_freq; i++) {
         points.push_back(dis(gen));
     }
-    std::sort(points.begin(), points.end());
+
+    for (size_t i = 0; i < points.size(); i++) {
+        for (size_t j = i + 1; j < points.size(); j++) {
+            if (points[i] > points[j]) {
+                std::swap(points[i], points[j]);
+            }
+        }
+    }
 }
 
