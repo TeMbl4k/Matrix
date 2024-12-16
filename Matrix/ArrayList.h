@@ -37,7 +37,7 @@ public:
 
     void insert(size_t index, const T& value) override {
         if (index > count) throw std::out_of_range("Index out of range");
-        if (count >= capacity) resize(capacity + 1);
+        if (count >= capacity) resize(capacity * 2);
         for (size_t i = count; i > index; --i) {
             data[i] = data[i - 1];
         }
@@ -66,10 +66,6 @@ public:
         data = new T[1];
         count = 0;
         capacity = 1;
-    }
-
-    T* begin() override {
-        return count > 0 ? &data[0] : nullptr;
     }
 
 

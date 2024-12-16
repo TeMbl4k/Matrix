@@ -11,7 +11,6 @@ public:
     virtual ~List() = default;
     virtual bool empty() const = 0;
     virtual void clear() = 0;
-    virtual T* begin() = 0;
     virtual T& operator[](size_t index) = 0;
 
 

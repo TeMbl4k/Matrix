@@ -88,11 +88,6 @@ public:
         count = 0;
     }
 
-    T* begin() override {
-        if (!head) return nullptr;
-        return &head->data;
-    }
-
     T& operator[](size_t index) override {
         if (index >= count) {
             throw std::out_of_range("Index out of range");
@@ -103,8 +98,6 @@ public:
         }
         return current->data;
     }
-
-
 
 };
 

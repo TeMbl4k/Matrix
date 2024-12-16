@@ -19,7 +19,7 @@ class Run {
 
     int height, width;
 
-    ArrayList<Figure*> figures;
+    LinkedList<Figure*> figures;
     ArrayList<double> points;
 
 
